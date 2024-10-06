@@ -1,29 +1,69 @@
 public class Maths {
-  public static double MadeArea(double H, double W){
-    double area = H*W;
+  public static String WriteSquare(double H, double W, boolean print){
+    String square = "";
     
     W*=2.5;
     for (int i = 1; i<W+2; i++){
-      System.out.print('_');
+      
+      square+="_";
     }
-    System.out.println();
+    
+    square+="\n";
     for (int i = 0; i<H; i++){
-      System.out.print("|");
+      square+="|";
       if(i == H-1){
         for (int ii = 1; ii<W; ii++){
-          System.out.print("_");
+          square+="_";
         }
+        square+="|";
       }else{
         for (int ii = 1; ii<W; ii++){
-          System.out.print(" ");
+          square+=" ";
         }
+        square+="|\n";
       }
-      System.out.println("|");
     }
-    System.out.println();
-    
-    return area;
+    if(print){
+      square+="\n";
+      System.out.print(square);
+    }
+
+    return square;
   } 
+
+  public static int[][] SquaresFabricator(int[] sides, int C){ //for the interface
+    int[][] config = new int[sides.length][3]; //3 = ALLBITS, ABORT, (WIDTH and HEIGHT)
+    
+    int Hdistance = 0;
+    int Vdistance = 0;
+
+    for(int i = 0; i<sides.length; i++){
+      config[i][0] = Hdistance;
+      config[i][1] = Vdistance;
+      config[i][2] = sides[i]*C;
+
+      if(i%4 == 1) {
+        Hdistance += sides[i]*C;
+        if(i!=1)Vdistance -= sides[i-1]*C;
+      }
+      else if(i%4 == 2) {
+        Vdistance += sides[i]*C;
+        Hdistance -= sides[i-1]*C;
+      }
+      else if(i%4 == 3) {
+        Hdistance += sides[i]*C;
+        Vdistance -= sides[i-1]*C;
+      }
+      else if(i!=0){
+        Vdistance += sides[i]*C;
+        Hdistance -= sides[i-1]*C;
+      }else{
+        Vdistance -= sides[i]*C;
+      }
+    }
+    
+    return config;
+  }
 
   public static int[] FibonacciSequece(int limiteLoop, boolean print){
     int preNumber1 = 1;
@@ -34,8 +74,7 @@ public class Maths {
 
     for(int i = 0; i < limiteLoop; i++){
       if(print) {
-        System.out.println(fibonachi);
-        MadeArea(fibonachi,fibonachi);
+        WriteSquare(fibonachi,fibonachi,true);
       }
       fibonacciA[i] = fibonachi;
       fibonachi = preNumber1+preNumber2;
@@ -47,8 +86,3 @@ public class Maths {
     return fibonacciA;
   }
 }
-/*
-  _____
-  |   |
-  |___|
- */
