@@ -32,7 +32,7 @@ public class Maths {
   } 
 
   public static int[][] SquaresFabricator(int[] sides, int C){ //for the interface
-    int[][] config = new int[sides.length][3]; //3 = ALLBITS, ABORT, (WIDTH and HEIGHT)
+    int[][] config = new int[sides.length][3]; //3 = X, Y, (WIDTH and HEIGHT)
     
     int Hdistance = 0;
     int Vdistance = 0;
@@ -44,19 +44,20 @@ public class Maths {
 
       if(i%4 == 1) {
         Hdistance += sides[i]*C;
-        if(i!=1)Vdistance -= sides[i-1]*C;
+        if(i!=1){
+          //Vdistance += sides[i-1]*C;
+        }
       }
       else if(i%4 == 2) {
         Vdistance += sides[i]*C;
         Hdistance -= sides[i-1]*C;
       }
       else if(i%4 == 3) {
-        Hdistance += sides[i]*C;
+        Hdistance -= (sides[i]*C+sides[i-1]*C);
         Vdistance -= sides[i-1]*C;
       }
       else if(i!=0){
-        Vdistance += sides[i]*C;
-        Hdistance -= sides[i-1]*C;
+        Vdistance -= (sides[i]+sides[i-1])*C;
       }else{
         Vdistance -= sides[i]*C;
       }

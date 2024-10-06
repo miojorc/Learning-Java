@@ -58,15 +58,50 @@ public class Interface {
     @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
-      int[][] config = new int[30][3];
-      config = Maths.SquaresFabricator(Maths.FibonacciSequece(30,false), 1);
+
+      int B = 20;
+
+      int W = 275;
+
+      int H = 445;
+
+      int[][] config = new int[B][3];
+
+      int C = 1;
+
+      config = Maths.SquaresFabricator(Maths.FibonacciSequece(B,false), C);
+      int angle = 0;
+
+      int c1 = 0;
+      int c2 = 0;
+
       if (drawBox) {
         g.setColor(Color.RED);
-        for (int i = 0; i<30; i++){
-          if(i%3 == 1) g.setColor(Color.RED);
-          else if(i%3 == 2) g.setColor(Color.BLUE);
-          else g.setColor(Color.GREEN);
-          g.fillRect(config[i][0], config[i][1], config[i][2], config[i][2]);
+        for (int i = 0; i<B; i++){ //concertar "centro"
+          if(i%4 == 1) {
+            g.setColor(Color.RED);
+            angle = 90;
+          }
+          else if(i%4 == 2) {
+            g.setColor(Color.BLUE);
+            if(i!=0) c1 = -config[i][2];
+            angle = 0;
+          }
+          else if(i%4 == 3){
+            g.setColor(Color.YELLOW);
+            if(i!=0) c1 = -config[i][2];
+            if(i!=0) c2 = -config[i][2];
+            angle = 270;
+          }else{
+            g.setColor(Color.GREEN);
+            c2 = -config[i][2];
+            angle = 180;
+          }
+          g.fillRect(config[i][0]+W, config[i][1]+H, config[i][2], config[i][2]);
+          g.setColor(Color.BLACK);
+          g.drawArc(config[i][0]+W+c1, config[i][1]+H+c2, config[i][2]*2, config[i][2]*2, angle, 95);
+          c1 = 0;
+          c2 = 0;
         }
       }
     }
