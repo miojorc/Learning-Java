@@ -1,11 +1,11 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
+//import java.util.concurrent.TimeUnit;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -33,21 +33,16 @@ public class Interface {
     });
   }
 
-  public class IPanel extends JPanel {
 
-    private boolean drawBox;
+  public class IPanel extends JPanel {
 
     public IPanel() {
       setLayout(new GridBagLayout());
-      JButton draw = new JButton("Draw Fibonacci");
-      add(draw);
-      draw.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          drawBox = !drawBox;
-          repaint();
-        }
-      });
+      repaint();
+    }
+
+    public BasicStroke racket(){
+      return new BasicStroke(100);
     }
 
     @Override
@@ -58,62 +53,12 @@ public class Interface {
     @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
+      g.setColor(Color.GREEN);
+  
+      g.fillRect(10, 10, 10, 10);
 
-      int B = 20;
-
-      int W = 275;
-
-      int H = 445;
-
-      int[][] config = new int[B][3];
-
-      int C = 1;
-
-      config = Maths.SquaresFabricator(Maths.FibonacciSequece(B,false), C);
-      int angle = 0;
-
-      int c1 = 0;
-      int c2 = 0;
-
-      if (drawBox) {
-        g.setColor(Color.RED);
-        for (int i = 0; i<B; i++){ //concertar "centro"
-          if(i%4 == 1) {
-            g.setColor(Color.RED);
-          }
-          else if(i%4 == 2) {
-            g.setColor(Color.BLUE);
-          }
-          else if(i%4 == 3){
-            g.setColor(Color.YELLOW);
-          }else{
-            g.setColor(Color.GREEN);
-          }
-          g.fillRect(config[i][0]+W, config[i][1]+H, config[i][2], config[i][2]);
-        }
-        g.setColor(Color.BLACK);
-        for (int i = 0; i<B; i++){
-          if(i%4 == 1) {
-            angle = 90;
-          }
-          else if(i%4 == 2) {
-            if(i!=0) c1 = -config[i][2];
-            angle = 0;
-          }
-          else if(i%4 == 3){
-            if(i!=0) c1 = -config[i][2];
-            if(i!=0) c2 = -config[i][2];
-            angle = 270;
-          }else{
-            c2 = -config[i][2];
-            angle = 180;
-          }
-          g.setColor(Color.BLACK);
-          g.drawArc(config[i][0]+W+c1, config[i][1]+H+c2, config[i][2]*2, config[i][2]*2, angle, 90);
-          c1 = 0;
-          c2 = 0;
-        }
-      }
+      g.setColor(Color.BLACK);
+      g.drawArc(10, 10, 10*2, 10*2, 0, 90);
     }
   
   }
