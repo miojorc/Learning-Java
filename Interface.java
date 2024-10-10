@@ -1,15 +1,15 @@
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
-//import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import javafx.scene.input.KeyEvent;
 
 public class Interface {
   public Interface(){
@@ -33,32 +33,28 @@ public class Interface {
     });
   }
 
-
   public class IPanel extends JPanel {
+    int racketB = 20;
+    int racketR = 20;
+    Color c = Color.BLUE;
 
     public IPanel() {
       setLayout(new GridBagLayout());
       repaint();
     }
 
-    public BasicStroke racket(){
-      return new BasicStroke(100);
-    }
-
     @Override
     public Dimension getPreferredSize() { 
-      return new Dimension(1000, 1000); //initialized size
+      return new Dimension(500, 500); //initialized size
     }
 
     @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
-      g.setColor(Color.GREEN);
+      g.setColor(c);
   
-      g.fillRect(10, 10, 10, 10);
-
-      g.setColor(Color.BLACK);
-      g.drawArc(10, 10, 10*2, 10*2, 0, 90);
+      if(c == Color.BLUE) g.fillRect(50, racketB, 10, 125);
+      else if (c == Color.RED) g.fillRect(450, racketR, 10, 125);
     }
   
   }

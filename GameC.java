@@ -3,9 +3,4 @@ public class GameC {
     int[][] config = new int[defaultConfigurations.length][4];
     return config;
   }
-
-  public static int[] Racket(int limiteLoop, boolean print){ //define the reckets
-    int[] racket = new int[5];
-    return racket;
-  }
 }
