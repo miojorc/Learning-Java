@@ -1,10 +1,10 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
-import java.awt.event.KeyListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,11 +13,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 
 public class Interface {
-  int racketB = 20;
-  int racketR = 20;
-  Color c = Color.BLUE;
-
-  boolean gameEnd = false;
+  JFrame frame = new JFrame("Testing");
 
   public Interface(){
     EventQueue.invokeLater(new Runnable() {
@@ -29,11 +25,10 @@ public class Interface {
           ex.printStackTrace();
         }
 
-        JFrame frame = new JFrame("Testing");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridBagLayout());
-        frame.add(new IPanel());
-        frame.addKeyListener(new Controler());
+        frame.add(new Controler());
+        
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -41,36 +36,39 @@ public class Interface {
     });
   }
 
-  public class Controler extends Frame implements KeyListener{
-    @Override
-    public void keyPressed(java.awt.event.KeyEvent e) {
-      if (e.getKeyChar() == 'w'){
-        c = Color.RED;
-        racketR++;
+  public class Controler extends JPanel{
+    int racketB = 20;
+    int racketR = 20;
+
+    boolean reset = true;
+
+    public Controler() {
+      setLayout(new GridBagLayout());
+      frame.addKeyListener(new KeyAdapter(){
+        public void keyPressed(KeyEvent e) {
+          if(e.getKeyCode() == KeyEvent.VK_UP){
+            racketR -= 5;
+          }
+          
+          if(e.getKeyCode() == KeyEvent.VK_DOWN){
+            racketR += 5;
+          }
+          
+          if(e.getKeyCode() == KeyEvent.VK_W){
+            racketB -= 5;
+          }
+
+          if(e.getKeyCode() == KeyEvent.VK_S){
+            racketB += 5;
+          }
+
+          repaint();
       }
-      if (e.getKeyChar() == 's'){
-        c = Color.RED;
-        racketR--;
+      });
+      if(reset){
+        repaint();
+        reset = false;
       }
-      new IPanel();
-      System.err.println("a");
-    }
-
-    @Override
-    public void keyReleased(java.awt.event.KeyEvent e) {
-      System.err.println("b");
-    }
-
-    @Override
-    public void keyTyped(java.awt.event.KeyEvent e) {
-      System.err.println("c");
-    }    
-  }
-
-  public class IPanel extends JPanel{
-    public IPanel() {
-      //setLayout(new GridBagLayout());
-      repaint();
     }
 
     @Override
@@ -81,11 +79,9 @@ public class Interface {
     @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
-      g.setColor(c);
-  
-      if(c == Color.BLUE) g.fillRect(50, racketB, 10, 125);
-      else if (c == Color.RED) g.fillRect(450, racketR, 10, 125);
+
+      g.setColor(Color.BLUE); g.fillRect(50, racketB, 10, 125);
+      g.setColor(Color.RED);  g.fillRect(450, racketR, 10, 125);
     }
-  
   }
 }
