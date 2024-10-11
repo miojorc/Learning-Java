@@ -13,7 +13,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 
 public class Interface {
-  JFrame frame = new JFrame("Testing");
+  JFrame frame = new JFrame("BracketGame");
 
   public Interface(){
     EventQueue.invokeLater(new Runnable() {
@@ -37,10 +37,13 @@ public class Interface {
   }
 
   public class Controler extends JPanel{
-    int racketB = 20;
-    int racketR = 20;
+    int racketB = 125;
+    int racketR = 125;
 
-    boolean reset = true;
+    int ball[] = {60,185};
+
+    boolean direction = true;
+    int relation = 10;
 
     public Controler() {
       setLayout(new GridBagLayout());
@@ -61,27 +64,37 @@ public class Interface {
           if(e.getKeyCode() == KeyEvent.VK_S){
             racketB += 5;
           }
-
+          ball = BallEvents.Pong(ball, relation, direction); // %10 of colided racket Position
+          if((racketR < ball[1] && racketR+130 > ball[1]) && (440 <= ball[0])){
+            direction = false;
+            relation = ball[1]%10;
+            if(relation < 1) relation = 2;
+          }else if((racketB < ball[1] && racketB+130 > ball[1]) && (60 >= ball[0])){
+            direction = true;
+            relation = ball[1]%10;
+            if(relation < 1) relation = 2;
+          }
+          if(ball[1] > 400) relation = 2;
+          if(ball[1] < 1) relation = 10;
+          System.out.println(racketR);
+          System.out.println(ball[1]+"a"+direction);
           repaint();
       }
       });
-      if(reset){
-        repaint();
-        reset = false;
-      }
     }
 
     @Override
     public Dimension getPreferredSize() { 
-      return new Dimension(500, 500); //initialized size
+      return new Dimension(500, 400); //initialized size
     }
 
     @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
 
-      g.setColor(Color.BLUE); g.fillRect(50, racketB, 10, 125);
-      g.setColor(Color.RED);  g.fillRect(450, racketR, 10, 125);
+      g.setColor(Color.BLUE); g.fillRect(50, racketB, 10, 130);
+      g.setColor(Color.BLACK); g.fillRect(ball[0], ball[1], 10, 10);
+      g.setColor(Color.RED);  g.fillRect(450, racketR, 10, 130);
     }
   }
 }
