@@ -45,6 +45,8 @@ public class Interface {
     boolean direction = true;
     int relation = 10;
 
+    boolean verticality = true;
+
     public Controler() {
       setLayout(new GridBagLayout());
       frame.addKeyListener(new KeyAdapter(){
@@ -64,7 +66,9 @@ public class Interface {
           if(e.getKeyCode() == KeyEvent.VK_S){
             racketB += 5;
           }
-          ball = BallEvents.Pong(ball, relation, direction); // %10 of colided racket Position
+
+          ball = BallEvents.Pong(ball, relation, direction, verticality); // %10 of colided racket Position
+
           if((racketR < ball[1] && racketR+130 > ball[1]) && (440 <= ball[0])){
             direction = false;
             relation = ball[1]%10;
@@ -74,11 +78,13 @@ public class Interface {
             relation = ball[1]%10;
             if(relation < 1) relation = 2;
           }
-          if(ball[1] > 400) relation = 2;
-          if(ball[1] < 1) relation = 10;
+
+          if(ball[1] > 390) verticality = !verticality;
+          if(ball[1] < 1) verticality =!verticality;
           System.out.println(racketR);
           System.out.println(ball[1]+"a"+direction);
           repaint();
+
       }
       });
     }

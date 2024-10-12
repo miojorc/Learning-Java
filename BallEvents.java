@@ -1,5 +1,5 @@
 public class BallEvents {
-  public static int[] Pong(int[] defaultConfigurations ,double relation, boolean direction){ //Define the direction // remember to add a bollean to change in vertical
+  public static int[] Pong(int[] defaultConfigurations ,double relation, boolean direction, boolean vertical){ //Define the direction // remember to add a bollean to change in vertical
     int[] config = defaultConfigurations;
 
     int sum = 0;
@@ -10,7 +10,7 @@ public class BallEvents {
 
     sum = 0;
     for (int i = 0; i <= relation/relation; i++) sum = i;
-    config[1] += sum; 
+    config[1] += vertical ? sum : -sum; 
 
     return config;
   }
