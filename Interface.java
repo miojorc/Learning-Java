@@ -66,27 +66,32 @@ public class Interface {
           if(e.getKeyCode() == KeyEvent.VK_S){
             racketB += 5;
           }
-
-          ball = BallEvents.Pong(ball, relation, direction, verticality); // %10 of colided racket Position
-
-          if((racketR < ball[1] && racketR+130 > ball[1]) && (440 <= ball[0])){
-            direction = false;
-            relation = ball[1]%10;
-            if(relation < 1) relation = 2;
-          }else if((racketB < ball[1] && racketB+130 > ball[1]) && (60 >= ball[0])){
-            direction = true;
-            relation = ball[1]%10;
-            if(relation < 1) relation = 2;
-          }
-
-          if(ball[1] > 390) verticality = !verticality;
-          if(ball[1] < 1) verticality =!verticality;
-          System.out.println(racketR);
-          System.out.println(ball[1]+"a"+direction);
-          repaint();
-
-      }
+          Pong();
+        }
       });
+    }
+
+
+    private void Pong(){
+      ball = BallEvents.MoveBall(ball, relation, direction, verticality);
+
+      if((racketR < ball[1] && racketR+130 > ball[1]) && (440 <= ball[0])){
+        direction = false;
+        relation = ball[1]%10;
+        if(relation < 1) relation = 2;
+      }else if((racketB < ball[1] && racketB+130 > ball[1]) && (60 >= ball[0])){
+        direction = true;
+        relation = ball[1]%10;
+        if(relation < 1) relation = 2;
+      }
+
+      if(ball[1] > 390) verticality = !verticality;
+      if(ball[1] < 1) verticality =!verticality;
+
+      System.out.println(racketR);
+      System.out.println(racketB);
+
+      repaint();
     }
 
     @Override
