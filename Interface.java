@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.concurrent.locks.LockSupport;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -42,10 +43,16 @@ public class Interface {
 
     int ball[] = {60,185};
 
-    boolean direction = true;
+    boolean horizontality = true;
+    boolean verticality = true;
     int relation = 10;
 
-    boolean verticality = true;
+    int bluePoints = 0;
+    int redPoints = 0;
+
+    int velocity = 0;
+
+    boolean startMovement = false;
 
     public Controler() {
       setLayout(new GridBagLayout());
@@ -67,8 +74,10 @@ public class Interface {
             racketB += 5;
           }
           System.out.println(e.getKeyCode());
+          startMovement = true;
         }
       });
+      //frame.te
       Pong();
     }
 
@@ -76,14 +85,14 @@ public class Interface {
     private void Pong(){
       Runnable runnable = () -> { 
         while(true){
-          ball = BallEvents.MoveBall(ball, relation, direction, verticality);
+          if(startMovement) ball = BallEvents.MoveBall(ball, relation, horizontality, verticality);
 
           if((racketR < ball[1] && racketR+130 > ball[1]) && (440 <= ball[0])){
-            direction = false;
+            horizontality = false;
             relation = ball[1]%10;
             if(relation < 1) relation = 2;
           }else if((racketB < ball[1] && racketB+130 > ball[1]) && (60 >= ball[0])){
-            direction = true;
+            horizontality = true;
             relation = ball[1]%10;
             if(relation < 1) relation = 2;
           }
@@ -91,15 +100,31 @@ public class Interface {
           if(ball[1] > 390) verticality = !verticality;
           if(ball[1] < 1) verticality =!verticality;
 
+          if(ball[0] > 460) {
+            velocity=0;
+            startMovement = false;
+            bluePoints++;
+            ball[1] = racketR+60;
+            ball[0] = 440;
+          }
+          if(ball[0] < 40) {
+            velocity=0;
+            startMovement = false;
+            redPoints++;
+            ball[1] = racketB+60;
+            ball[0] = 60;
+          }
+
           System.out.println(racketR);
           System.out.println(racketB);
 
           repaint();
           try {
-            Thread.sleep(20);
-          } catch (InterruptedException e) {
+            LockSupport.parkNanos(2_000_000-velocity);
+          } catch (Exception e) {
             e.printStackTrace();
           }
+          velocity+=100;
         }
       };
       new Thread(runnable).start();
@@ -113,6 +138,9 @@ public class Interface {
     @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
+
+      g.drawString(String.valueOf(bluePoints), 50, 20);
+      g.drawString(String.valueOf(redPoints), 450, 20);
 
       g.setColor(Color.BLUE); g.fillRect(50, racketB, 10, 130);
       g.setColor(Color.BLACK); g.fillRect(ball[0], ball[1], 10, 10);
