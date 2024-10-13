@@ -22,7 +22,7 @@ public class FibonacciInterface {
           ex.printStackTrace();
         }
 
-        JFrame frame = new JFrame("Testing");
+        JFrame frame = new JFrame("Fibonacci");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridBagLayout());
         frame.add(new IPanel());

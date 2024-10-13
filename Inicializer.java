@@ -46,6 +46,14 @@ public class Inicializer {
           new BracketGameInterface();
         }
       });
+      JButton Fibonacci = new JButton("open Fibonacci generator");
+      add(Fibonacci);
+      Fibonacci.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent arg0) {
+          new FibonacciInterface();
+        }
+      });
     }
 
 
