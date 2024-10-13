@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public class Interface {
-  public Interface(){
+public class FibonacciInterface {
+  public FibonacciInterface(){
     EventQueue.invokeLater(new Runnable() {
       @Override
       public void run() {
