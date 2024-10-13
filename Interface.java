@@ -36,7 +36,7 @@ public class Interface {
     });
   }
 
-  public class Controler extends JPanel{
+  public class Controler extends JPanel {
     int racketB = 125;
     int racketR = 125;
 
@@ -66,32 +66,43 @@ public class Interface {
           if(e.getKeyCode() == KeyEvent.VK_S){
             racketB += 5;
           }
-          Pong();
+          System.out.println(e.getKeyCode());
         }
       });
+      Pong();
     }
 
 
     private void Pong(){
-      ball = BallEvents.MoveBall(ball, relation, direction, verticality);
+      Runnable runnable = () -> { 
+        while(true){
+          ball = BallEvents.MoveBall(ball, relation, direction, verticality);
 
-      if((racketR < ball[1] && racketR+130 > ball[1]) && (440 <= ball[0])){
-        direction = false;
-        relation = ball[1]%10;
-        if(relation < 1) relation = 2;
-      }else if((racketB < ball[1] && racketB+130 > ball[1]) && (60 >= ball[0])){
-        direction = true;
-        relation = ball[1]%10;
-        if(relation < 1) relation = 2;
-      }
+          if((racketR < ball[1] && racketR+130 > ball[1]) && (440 <= ball[0])){
+            direction = false;
+            relation = ball[1]%10;
+            if(relation < 1) relation = 2;
+          }else if((racketB < ball[1] && racketB+130 > ball[1]) && (60 >= ball[0])){
+            direction = true;
+            relation = ball[1]%10;
+            if(relation < 1) relation = 2;
+          }
 
-      if(ball[1] > 390) verticality = !verticality;
-      if(ball[1] < 1) verticality =!verticality;
+          if(ball[1] > 390) verticality = !verticality;
+          if(ball[1] < 1) verticality =!verticality;
 
-      System.out.println(racketR);
-      System.out.println(racketB);
+          System.out.println(racketR);
+          System.out.println(racketB);
 
-      repaint();
+          repaint();
+          try {
+            Thread.sleep(20);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+      };
+      new Thread(runnable).start();
     }
 
     @Override
