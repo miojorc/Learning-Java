@@ -1,2 +1,4 @@
-# Learning-Java
-learning java to make minecraft mods in future
+# Atari-Pong
+
+The classic game
+states: in construction, move brackets to move ball
