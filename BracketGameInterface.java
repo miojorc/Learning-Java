@@ -13,10 +13,10 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 
-public class Interface {
+public class BracketGameInterface {
   JFrame frame = new JFrame("BracketGame");
 
-  public Interface(){
+  public BracketGameInterface(){
     EventQueue.invokeLater(new Runnable() {
       @Override
       public void run() {
