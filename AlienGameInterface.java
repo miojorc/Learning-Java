@@ -43,6 +43,7 @@ public class AlienGameInterface {
     int aliens = 10;
 
     int blasts[][] = {{-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}};
+    int barriers[] = {40,140,240,340,440};
 
     int lives = 3;
     int points = 0;
@@ -113,20 +114,21 @@ public class AlienGameInterface {
 
       g.setColor(Color.WHITE); 
       
-      if(blasts[0][0] != -1){
-        for(int i = 0; i<blasts.length; i++){
-          if(blasts[i][0] != -1){
-            blasts[i][1]--;
-            g.fillRect(blasts[i][0]+2, blasts[i][1], 2, 4);
-            if(blasts[i][1] <= 1){
-              blasts[i][0] = -1;
-              blasts[i][1] = -1;
-            } 
-            System.out.println(i);
+      for(int i = 0; i<blasts.length; i++){
+        if(blasts[i][0] != -1){
+          blasts[i][1]--;
+          g.fillRect(blasts[i][0]+2, blasts[i][1], 2, 4);
+          if(blasts[i][1] <= 1){
+            blasts[i][0] = -1;
+            blasts[i][1] = -1;
           } 
-        }
+          System.out.println(i);
+        } 
       }
 
+      for(int i = 0; i<barriers.length; i++){
+        g.setColor(Color.WHITE); g.fillRect(barriers[i], 350, 20, 10); g.fillRect(barriers[i]-5, 345, 30, 10);
+      }
       g.setColor(Color.BLUE);  g.fillRect(hero, 370, 5, 10); g.fillRect(hero-5, 375, 15, 5);
     }
   }
