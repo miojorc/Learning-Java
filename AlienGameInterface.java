@@ -40,17 +40,22 @@ public class AlienGameInterface {
 
   public class Controler extends JPanel {
     int hero = 125;
-    int aliens = 10;
 
     int blasts[][] = {{-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}};
+
     int barriers[] = {40,140,240,340,440};
+    int aliens[][] = {{100,50},{200,50},{300,50},{400,50},
+                      {100,100},{200,100},{300,100},{400,100},
+                      {100,150},{200,150},{300,150},{400,150},
+                      {100,200},{200,200},{300,200},{400,200},
+                      {100,250},{200,250},{300,250},{400,250}};
+
+    int aliensQuaintity = 25;
 
     int lives = 3;
     int points = 0;
 
     int velocity = 0;
-
-    AtacksEvents AE;
 
     public Controler() {
       setLayout(new GridBagLayout());
@@ -86,6 +91,23 @@ public class AlienGameInterface {
     private void AliensAtacks(){
       Runnable runnable = () -> { 
         while(true){
+          for(int i = 0; i<blasts.length; i++){
+            if(blasts[i][0] != -1){
+              blasts[i][1]--;
+              if(blasts[i][1] <= 1){
+                blasts[i][0] = -1;
+                blasts[i][1] = -1;
+              } 
+              //System.out.println(i);
+            } 
+          }
+          for(int i = 0; i<aliens.length; i++){
+            for(int j = 0; j<blasts.length; j++){
+              if((aliens[i][0]+10 > blasts[j][0] && aliens[i][0]-10 < blasts[j][0]) && (aliens[i][1]+5 > blasts[j][1] && aliens[i][1] < blasts[j][1]+5)){
+                System.out.println("colide");
+              }
+            }
+          }
           repaint();
           try {
             LockSupport.parkNanos(2_000_000);
@@ -112,12 +134,12 @@ public class AlienGameInterface {
       g.setColor(Color.CYAN);   g.drawString("P", 440, 20); 
       g.setColor(Color.WHITE);  g.drawString(String.valueOf(points), 450, 20);
 
-      g.setColor(Color.WHITE); 
+      g.setColor(Color.cyan); 
       
       for(int i = 0; i<blasts.length; i++){
         if(blasts[i][0] != -1){
           blasts[i][1]--;
-          g.fillRect(blasts[i][0]+2, blasts[i][1], 2, 4);
+          g.fillRect(blasts[i][0]+4, blasts[i][1], 3, 6);
           if(blasts[i][1] <= 1){
             blasts[i][0] = -1;
             blasts[i][1] = -1;
@@ -129,7 +151,12 @@ public class AlienGameInterface {
       for(int i = 0; i<barriers.length; i++){
         g.setColor(Color.WHITE); g.fillRect(barriers[i], 350, 20, 10); g.fillRect(barriers[i]-5, 345, 30, 10);
       }
-      g.setColor(Color.BLUE);  g.fillRect(hero, 370, 5, 10); g.fillRect(hero-5, 375, 15, 5);
+      Color purple = new Color(200, 50, 150);
+      g.setColor(purple); 
+      for(int i = 0; i<aliens.length; i++){
+        g.fillRect(aliens[i][0], aliens[i][1] , 10, 5); g.fillRect(aliens[i][0], aliens[i][1], 15, 5);
+      }
+      g.setColor(Color.BLUE);  g.fillRect(hero, 370, 10, 20); g.fillRect(hero-10, 380, 30, 10);
     }
   }
 }
