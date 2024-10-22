@@ -113,7 +113,7 @@ public class AlienGameInterface {
                       }
                     }
                     catch(Exception e){
-                      aliensBlasts[j][1] = aliens[k-4][1];
+                      if(k < aliens.length) aliensBlasts[j][1] = aliens[k-4][1];
                     }
                   }
 
@@ -123,6 +123,7 @@ public class AlienGameInterface {
               }
             }
           }
+          System.out.println("a");
 
           for(int i = 0; i<blasts.length; i++){ //move blasts
             if(blasts[i][0] != -1){
@@ -155,6 +156,7 @@ public class AlienGameInterface {
               }
             }
           }
+          System.out.println("b");
 
           for(int j = 0; j<aliensBlasts.length; j++){ //test if blast reach the hero
             if((hero+20 > aliensBlasts[j][0] && hero-10 < aliensBlasts[j][0]) && (375+5 > aliensBlasts[j][1] && 375 < aliensBlasts[j][1]+5)){
@@ -176,6 +178,7 @@ public class AlienGameInterface {
               }
             }
           }
+          System.out.println("c");
 
           repaint();
           try {
