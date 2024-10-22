@@ -48,13 +48,16 @@ public class AlienGameInterface {
 
     int barriers[] = {40,140,240,340,440};
 
-    int aliens[][] = {{100,50},{200,50},{300,50},{400,50},
-                      {100,100},{200,100},{300,100},{400,100},
-                      {100,150},{200,150},{300,150},{400,150},
-                      {100,200},{200,200},{300,200},{400,200},
-                      {100,250},{200,250},{300,250},{400,250}};
+    int aliens[][] = {{40,50},{140,50},{240,50},{340,50},
+                      {40,100},{140,100},{240,100},{340,100},
+                      {40,150},{140,150},{240,150},{340,150},
+                      {40,200},{140,200},{240,200},{340,200},
+                      {40,250},{140,250},{240,250},{340,250}};
+
+    int constMove = 1;
 
     int aliensQuaintity = 20;
+    int loops = 0;
 
     int lives = 3;
     int points = 0;
@@ -94,7 +97,7 @@ public class AlienGameInterface {
 
     private void Atacks(){
       Runnable runnable = () -> { 
-        while(true){
+        while(lives>0){
           for(int i = 0; i<aliens.length; i++){ //teste aim of alien
             if((aliens[i][0]+10 > hero && aliens[i][0]-10 < hero) && !(aliens[i][0]+10 > alienBlastLocation && aliens[i][0]-10 < alienBlastLocation) && aliens[i][0] != 999){
               System.out.println("alien go blast");
@@ -103,9 +106,14 @@ public class AlienGameInterface {
                   aliensBlasts[j][0] = aliens[i][0]+2;
                   for(int k = i+16; k>0; k-=4){
                     System.out.println(k);
-                    if(aliens[k][1] != 999){
-                      aliensBlasts[j][1] = aliens[k][1];
-                      break;
+                    try{
+                      if(aliens[k][1] != 999){
+                        aliensBlasts[j][1] = aliens[k][1];
+                        break;
+                      }
+                    }
+                    catch(Exception e){
+                      aliensBlasts[j][1] = aliens[k-4][1];
                     }
                   }
 
@@ -148,12 +156,36 @@ public class AlienGameInterface {
             }
           }
 
+          for(int j = 0; j<aliensBlasts.length; j++){ //test if blast reach the hero
+            if((hero+20 > aliensBlasts[j][0] && hero-10 < aliensBlasts[j][0]) && (375+5 > aliensBlasts[j][1] && 375 < aliensBlasts[j][1]+5)){
+              System.out.println("colide");
+              aliensBlasts[j][0] = -1; 
+              aliensBlasts[j][1] = -1; 
+              alienBlastLocation = 0;
+              lives--;
+            }
+            if(340+5 > aliensBlasts[j][1] && 340 < aliensBlasts[j][1]+5){
+              for(int i = 0; i<barriers.length; i++){
+                if((barriers[i]+10 > aliensBlasts[j][0] && barriers[i]-10 < aliensBlasts[j][0])){
+                  System.out.println("colide");
+                  aliensBlasts[j][0] = -1; 
+                  aliensBlasts[j][1] = -1; 
+                  barriers[i] = 999;
+                  alienBlastLocation = 0;
+                }
+              }
+            }
+          }
+
           repaint();
           try {
             LockSupport.parkNanos(2_000_000);
           } catch (Exception e) {
             e.printStackTrace();
           }
+          loops++;
+          if (loops%110 == 0) constMove = -constMove;
+          if(loops > 2200000) loops = 1;
         }
       };
       new Thread(runnable).start();
@@ -196,8 +228,8 @@ public class AlienGameInterface {
       Color purple = new Color(200, 50, 200); g.setColor(purple); 
       for(int i = 0; i<aliens.length; i++){
         if(aliens[i][0] != 999) {
-          //g.fillRect(aliens[i][0], aliens[i][1] , 10, 5); g.fillRect(aliens[i][0], aliens[i][1], 15, 5);
-          g.drawString(String.valueOf(i), aliens[i][0], aliens[i][1]);
+          g.fillRect(aliens[i][0], aliens[i][1] , 10, 5); g.fillRect(aliens[i][0], aliens[i][1], 15, 5);
+          aliens[i][0]+=constMove; 
         }
       }
 
