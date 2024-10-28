@@ -52,6 +52,14 @@ public class Inicializer {
           new FibonacciInterface();
         }
       });
+      JButton AlienGame = new JButton("open AlienGame generator");
+      add(AlienGame);
+      AlienGame.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent arg0) {
+          new AlienGameInterface();
+        }
+      });
     }
 
 
