@@ -123,7 +123,6 @@ public class AlienGameInterface {
               }
             }
           }
-          System.out.println("a");
 
           for(int i = 0; i<blasts.length; i++){ //move blasts
             if(blasts[i][0] != -1){
@@ -156,7 +155,6 @@ public class AlienGameInterface {
               }
             }
           }
-          System.out.println("b");
 
           for(int j = 0; j<aliensBlasts.length; j++){ //test if blast reach the hero
             if((hero+20 > aliensBlasts[j][0] && hero-10 < aliensBlasts[j][0]) && (375+5 > aliensBlasts[j][1] && 375 < aliensBlasts[j][1]+5)){
@@ -178,7 +176,6 @@ public class AlienGameInterface {
               }
             }
           }
-          System.out.println("c");
 
           repaint();
           try {
@@ -204,7 +201,7 @@ public class AlienGameInterface {
       super.paintComponent(g);
       g.setColor(Color.BLACK); g.fillRect(0, 0, 500, 400);
 
-      g.setColor(Color.RED);    g.drawString("L", 40, 20); 
+      g.setColor(Color.RED);    g.drawString("L", 40, 20);
       g.setColor(Color.WHITE);  g.drawString(String.valueOf(lives), 50, 20);
       g.setColor(Color.CYAN);   g.drawString("P", 440, 20); 
       g.setColor(Color.WHITE);  g.drawString(String.valueOf(points), 450, 20);
